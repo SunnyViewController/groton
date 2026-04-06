@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+		
+		<title>Groton School | Virtual Campus Experience</title>
+		<!-- change viewport for phones	-->
+		<meta id="testViewport" name=viewport content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
+<script>
+if (screen.width < 768) {
+    var mvp = document.getElementById('testViewport');
+    mvp.setAttribute('content','width=device-width, initial-scale=.8, minimum-scale=.8, maximum-scale=.8');
+}
+</script>
+	
+	<!-- end change viewport for phones -->	
+		
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="mobile-web-app-capable" content="yes" />
+
+
+        <link href="styles.css" rel="stylesheet">
+
+
+		<style type="text/css" title="Default">
+
+			
+			
+
+			/* fullscreen */
+			html {
+				height:100%;
+			}
+			body {
+				height:100%;
+				margin: 0px;
+				overflow:hidden; /* disable scrollbars */
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* remove highlight on tab for iOS/Android */
+			}
+			/* fix for scroll bars on webkit & >=Mac OS X Lion */ 
+			::-webkit-scrollbar {
+				background-color: rgba(0,0,0,0.5);
+				width: 0.75em;
+			}
+			::-webkit-scrollbar-thumb {
+    			background-color:  rgba(255,255,255,0.5);
+			}
+			
+			
+			
+		</style>
+
+        
+        
+ <!-- /////////////  BEGIN LIGHTBOX FUNCTIONS A   //////////////////    -->
+    
+    <link rel="stylesheet" type="text/css" href="fancybox2/source/jquery.fancybox.css%3Fv=2.0.6.css" media="screen" />
+    <script src="fancybox2/lib/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="fancybox2/source/jquery.fancybox.js%3Fv=2.0.6"></script>
+    <script type="text/javascript" src="fancybox2/source/helpers/jquery.fancybox-media.js"></script>
+
+   <script type="text/javascript">
+    function LaunchFancybox(url, fbWidth, fbHeight, fbType)
+    {
+ $.fancybox({
+                'width': fbWidth,
+                'height': fbHeight,
+                'autoSize': false,
+				'type': fbType, 
+				'padding': 0,
+				'overlayColor': '#ccc',
+				href: url,
+				iframe : {
+        preload: false
+    },
+	
+	helpers : {
+        overlay : {
+            css : {
+                'background' : '#0071b0',
+
+            }
+        }
+    }
+				
+            });
+    }
+	
+</script>
+
+
+
+<script type="text/javascript">
+    function LaunchFancybox2(fbType, url, fbWidth)
+    {
+ $.fancybox({
+                'autoSize': true,
+                'width': fbWidth,
+                'height': 'auto',
+                'type': fbType, 
+                'padding': 0,
+                'aspectRatio' : true,
+                'overlayColor': '#ccc',
+                beforeShow: function(){
+  // added 50px to avoid scrollbars inside fancybox
+   this.width = ($('.fancybox-iframe').contents().find('html').width())+50;
+   this.height = ($('.fancybox-iframe').contents().find('html').height())+50;
+  },
+                href: url,
+                iframe : {
+        preload: false
+    },
+    
+    helpers : {
+        overlay : {
+            css : {
+                'background' : '#0071b0',
+
+            }
+        }
+    }
+                
+            });
+    }
+    
+</script>
+
+<!-- /////////////  END LIGHTBOX FUNCTIONS   //////////////////    -->
+        	
+
+
+	</head>
+	<body>
+<!-- - - - - - - 8<- - - - - - cut here - - - - - 8<- - - - - - - -->
+		<script type="text/javascript" src="pano2vr_player.js%3Fts=33632573">
+		</script>
+		<script type="text/javascript" src="skin.js%3Fts=33632573">
+		</script>
+		<div id="container" style="width:100%;height:100%;overflow:hidden;">
+		<br>Loading...<br><br>
+		</div>
+		<script type="text/javascript">
+		function parseParams(paramsString, params) {
+			paramsString = paramsString.substring(1);
+			var firstSeparatorPos = paramsString.indexOf(",");
+			if (firstSeparatorPos != -1) {
+				params.startNode = paramsString.slice(0, firstSeparatorPos);
+				var viewingParamsString = paramsString.slice(firstSeparatorPos + 1);
+				var viewingParams = viewingParamsString.split(",");
+				if (viewingParams.length >= 3) {
+					var startView = {};
+					startView["pan"] = viewingParams[0];
+					startView["tilt"] = viewingParams[1];
+					startView["fov"] = viewingParams[2];
+					if (viewingParams.length >= 4) {
+						startView["projection"] = viewingParams[3];
+					}
+					params.startView = startView;
+				}
+			} else {
+				params.startNode = paramsString;
+				params.startView = "";
+			}
+		}
+		var params = {};
+		parseParams(document.location.hash, params);
+		var startNode = params.startNode;
+		var startView = params.startView;
+		if (("onhashchange" in window) && (!(/MSIE (\d+\.\d+);/.test(navigator.userAgent)))) {
+			window.onhashchange = function () {
+				parseParams(window.location.hash, params);
+				pano.openNext('{' + params.startNode + '}', params.startView);
+			}
+		} else {
+			var lastHash = window.location.hash;
+			window.setInterval(function () {
+				if (window.location.hash != lastHash) {
+					lastHash = window.location.hash;
+					parseParams(window.location.hash, params);
+					pano.openNext('{' + params.startNode + '}', params.startView);
+				}
+			}, 100);
+		}
+			// create the panorama player with the container
+			pano=new pano2vrPlayer("container");
+			pano.startNode = startNode;
+			pano.startView = startView;
+			pano.setQueryParameter("ts=33632573")
+			// add the skin object
+			skin=new pano2vrSkin(pano);
+			// load the configuration
+			window.addEventListener("load", function() {
+				pano.readConfigUrlAsync("pano.xml?ts=33632573");
+			});
+			if (window.navigator.userAgent.match(/Safari/i)) {
+				// fix for white borders, rotation on iPhone
+				function iosHfix(e) {
+					window.scrollTo(0, 1);
+					var container=document.getElementById("container");
+					var oh=container.offsetHeight;
+					document.documentElement.style.setProperty('height', '100vh');
+					if (oh!=container.offsetHeight) {
+						container.style.setProperty('height',"100%");
+					} else {
+						container.style.setProperty('height',window.innerHeight+"px");
+					}
+					window.scrollTo(0, 0);
+					pano.setViewerSize(container.offsetWidth, container.offsetHeight);
+				};
+				setTimeout(iosHfix,0);
+				setTimeout(iosHfix,100);
+				window.addEventListener("resize", function() {
+					setTimeout(iosHfix,0);
+					// hide toolbar on iPad happens with a delay
+					setTimeout(iosHfix,500);
+					setTimeout(iosHfix,1000);
+					setTimeout(iosHfix,2000);
+				});
+			}
+		</script>
+<!-- - - - - - - 8<- - - - - - cut here - - - - - 8<- - - - - - - --> 
+		<!-- Hack needed to hide the url bar on iOS 9, iPhone 5s --> 
+		<div style="width:1px;height:1px;"></div>
+
+
+<!-- for ADA -->
+<main>
+<div class="hidden">
+	<h1>360° virtual tour of XXXXXXXXXXXX</h1>
+	<h2>Spin the panoramas to see each location</h2>
+</div>
+
+</main>
+
+
+
+	       
+<!-- /////////////  THE SOCIAL MEDIA LIGHTBOX   //////////////////    -->
+
+ <!-- AddToAny BEGIN -->
+    <div id="socialbuttons">
+<h3>Share with a friend</h3>
+<div class="a2a_kit a2a_kit_size_64 a2a_default_style"  data-a2a-icon-color="transparent, #1e4571">
+<a class="a2a_button_facebook"></a>
+<a class="a2a_button_twitter"></a>
+<a class="a2a_button_linkedin"></a>
+<a class="a2a_button_email"></a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+</div>
+   
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e847cc83d2dccd8',t:'MTc3NTUxNzI1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+
+</html>
+</html>
